@@ -13,16 +13,19 @@ int main(int argc, char **argv){
     fp = fopen(argv[1], "w"); /*open up the file in the first command line argument*/
     
     //main program loop
-    for(;;){
+    int exitFlag = 0;
+    do{
         //get the user inputed character
         int ch = getch();
 
         if(strcmp(keyname(ch), "^R") == 0){ //ctrl+r exits the program and saves
-            break;
+            exitFlag = 1;
         }
-    }
-    fclose(fp);
-    endwin();
+    }while(exitFlag == 0);
+
+    fprintf(fp,"test"); /*write to the file specified in argv[1]*/
+    fclose(fp);         /*close the file output stream*/
+    endwin();           /*exit ncurses*/
     return 0;
 }
 
