@@ -7,23 +7,19 @@ int main(int argc, char **argv){
     }
 
 
-    initscr();
-    getch();
-    char str[512];
+    initscr(); /*start ncurses*/
     
-
     FILE *fp;
-    fp = fopen(argv[1], "w");
-
-    while(1){
+    fp = fopen(argv[1], "w"); /*open up the file in the first command line argument*/
+    
+    //main program loop
+    for(;;){
+        //get the user inputed character
         int ch = getch();
 
         if(strcmp(keyname(ch), "^R") == 0){ //ctrl+r exits the program and saves
             break;
         }
-
-        printw("%s", keyname(ch));
-        
     }
     fclose(fp);
     endwin();
