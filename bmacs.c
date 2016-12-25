@@ -18,11 +18,13 @@ int main(int argc, char **argv){
         //get the user inputed character
         int input = getch();
         
-        fputs(keyname(input),file);
-
         if(strcmp(keyname(input), "^R") == 0){ //ctrl+r exits the program and saves
             exitFlag = 1;
+        }else{
+            //write key input to file 
+            fputs(keyname(input),file);
         }
+
         
     }while(exitFlag == 0);
 
