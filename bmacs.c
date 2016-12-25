@@ -14,23 +14,24 @@ int main(int argc, char **argv){
 
     //main program loop
     int exitFlag = 0;
-    char buffer[512];
     do{
         //get the user inputed character
         noecho();
         int input = getch();
         
         if(strcmp(keyname(input), "^R") == 0){ //ctrl+r exits the program and saves
-            //getstr(buffer);
+            //ctrl+r pressed
             exitFlag = 1;
         }else if(strcmp(keyname(input), "^J") == 0){
             printw("\n");
             fputs("\n", file);
         }else if(strcmp(keyname(input), "^I") == 0){
+            //tab pressed
             printw("\t");
             fputs("\t", file);
         }else if(strcmp(keyname(input), "^?") == 0){
-
+            //backspc pressed
+            
         }else{
             //write key input to file 
             printw(keyname(input));
