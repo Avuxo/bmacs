@@ -18,13 +18,14 @@ int main(int argc, char **argv){
         //get the user inputed character
         int input = getch();
         
+        fputs(keyname(input),file);
+
         if(strcmp(keyname(input), "^R") == 0){ //ctrl+r exits the program and saves
             exitFlag = 1;
         }
         
     }while(exitFlag == 0);
 
-    fprintf(file,"test"); /*write to the file specified in argv[1]*/
     fclose(file);         /*close the file output stream*/
     endwin();           /*exit ncurses*/
     return 0;
