@@ -15,6 +15,10 @@ int main(int argc, char **argv){
     //main program loop
     int exitFlag = 0;
     do{
+
+        /*GUI stuff*/
+        drawLine(argv[1]);
+        
         //get the user inputed character
         noecho();
         int input = getch();
@@ -37,7 +41,8 @@ int main(int argc, char **argv){
             printw(keyname(input));
             fputs(keyname(input),file);
         }
-
+        
+        
         
     }while(exitFlag == 0);
 
@@ -56,3 +61,20 @@ void usage(void){
   bmacs version 0.1
   https://github.com/asonskii/bmacs.git
 */
+
+void drawLine(char *filename){
+    int termH = 50; // terminal height
+    int termW = 95; // terminal width
+    int row, col;
+    getyx(curscr,col, row); // get current cursor
+    for(int i=0; i<((termW/2) - strlen(filename)); i++){
+        mvprintw(termH-5, i, "*"); // place a line of asterisks along the bottom of the screen
+    }
+    printw("%s", filename); // print the filename
+    for(int i=0; i<(termW/2); i++){
+        mvprintw(termH-5, (termW/2) + i,  "*"); // finish the line
+    }
+    move(col,row);
+    
+    
+}

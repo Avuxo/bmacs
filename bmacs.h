@@ -4,3 +4,5 @@
 #include "rope.h"
 
 void usage(void);
+
+void drawLine(char *filename);

@@ -7,7 +7,6 @@ struct Rope{
 };
 
 //get the string that the buffer is holding
-char *getString(struct Rope *start){
-    return "test";
-}
+/*char *getRope(struct Rope *start){
+}*/
 
