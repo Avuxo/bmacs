@@ -10,8 +10,7 @@ int main(int argc, char **argv){
     initscr(); /*start ncurses*/
     
     FILE *file;
-    file = fopen(argv[1], "w+"); /*open up the file in the first command line argument*/
-
+    file = fopen(argv[1], "w+"); //open the first command line argument
     //main program loop
     int exitFlag = 0;
     do{
@@ -57,24 +56,28 @@ void usage(void){
     return;
 }
 
-/*
-  bmacs version 0.1
-  https://github.com/asonskii/bmacs.git
-*/
 
+
+/*---------------------------------------------------------------------
+  Draw Line of asterisks at the bottom of the screen with the filename
+ ----------------------------------------------------------------------*/
 void drawLine(char *filename){
     int termH = 50; // terminal height
     int termW = 95; // terminal width
     int row, col;
     getyx(curscr,col, row); // get current cursor
-    for(int i=0; i<((termW/2) - strlen(filename)); i++){
-        mvprintw(termH-5, i, "*"); // place a line of asterisks along the bottom of the screen
-    }
+    for(int i=0; i<((termW/2) - strlen(filename)); i++)
+        mvprintw(termH-5, i, "*"); // draw asterisk line
     printw("%s", filename); // print the filename
-    for(int i=0; i<(termW/2); i++){
+    for(int i=0; i<(termW/2); i++)
         mvprintw(termH-5, (termW/2) + i,  "*"); // finish the line
-    }
-    move(col,row);
+    move(col,row); //move back to the original place of cursor
     
     
 }
+
+
+/*
+  bmacs version 0.1
+  https://github.com/asonskii/bmacs.git
+*/
