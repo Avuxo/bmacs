@@ -19,5 +19,5 @@ void stepBackward(struct gapBuffer buffer);
 //insert a character into the buffer
 void insertChar(struct gapBuffer buffer, char insert);
 
-
+//get the full buffer as a string
 char *getBuffer(struct gapBuffer buffer);

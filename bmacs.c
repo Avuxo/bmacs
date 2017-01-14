@@ -44,8 +44,9 @@ int main(int argc, char **argv){
             stepBackward(buffer);
         }else{
             //write key input to file
-            printw("%s", getBuffer(buffer));
             stepForward(buffer);
+            //printw(keyname(input));
+            printw("%s", getBuffer(buffer));
             insertChar(buffer, keyname(input));
         }
         
@@ -53,7 +54,7 @@ int main(int argc, char **argv){
         
     }while(exitFlag == 0);
 
-    //fprintf(file, "%s", buffer);
+    fprintf(file, "%s", getBuffer(buffer));
     fclose(file);         /*close the file output stream*/
     endwin();           /*exit ncurses*/
     return 0;

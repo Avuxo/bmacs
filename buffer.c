@@ -1,4 +1,5 @@
 #include "buffer.h"
+#include <strings.h>
 /*
   functions for use by the 'gap buffer' data type, implemented for the storage and manipulation of text in the bmacs editor
 */
@@ -26,6 +27,18 @@ void insertChar(struct gapBuffer buffer, char insert){
     return;
 };
 
+//get the full buffer as a string
 char *getBuffer(struct gapBuffer buffer){
-    return "";
+    int size = ((sizeof(buffer.start))    +
+                (sizeof(buffer.gapStart)) +
+                (sizeof(buffer.gapEnd))   +
+                (sizeof(buffer.end))  / 8);
+    char fullBuffer[size + 1]; //string sized for the file
+    
+    strcpy(fullBuffer, buffer.start);
+    strcpy(fullBuffer, buffer.gapStart);
+    strcpy(fullBuffer, buffer.gapEnd);
+    strcpy(fullBuffer, buffer.end);
+    
+    return fullBuffer;
 }
