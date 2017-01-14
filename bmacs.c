@@ -1,4 +1,5 @@
 #include "bmacs.h"
+#include "buffer.h"
 
 int main(int argc, char **argv){
     if(argc < 2){ /*make sure that the user actually provided a file*/
@@ -39,6 +40,7 @@ int main(int argc, char **argv){
             //write key input to file 
             printw(keyname(input));
             fputs(keyname(input),file);
+            stepForward();
         }
         
         
