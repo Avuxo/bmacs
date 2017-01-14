@@ -14,33 +14,39 @@ int main(int argc, char **argv){
     file = fopen(argv[1], "w+"); //open the first command line argument
     //main program loop
     int exitFlag = 0;
-    do{
 
-        /*GUI stuff*/
-        drawLine(argv[1]);
+    struct gapBuffer buffer;
+
+    //initialiation of the buffer
+    size_t bufSize = 256;
+    buffer.size = bufSize;
+    char start[buffer.size];
+    buffer.start = start;
+    buffer.gapStart = buffer.start;
+    buffer.end = buffer.start + buffer.size;
+    buffer.gapEnd = buffer.end;
+    
+     
+        
+    //GUI stuff
+    drawLine(argv[1]);
+    do{
         
         //get the user inputed character
         noecho();
         int input = getch();
         
-        if(strcmp(keyname(input), "^R") == 0){ //ctrl+r exits the program and saves
+        if(strcmp(keyname(input), "^R") == 0){ //ctrl+r exits program(save)
             //ctrl+r pressed
             exitFlag = 1;
-        }else if(strcmp(keyname(input), "^J") == 0){
-            printw("\n");
-            fputs("\n", file);
-        }else if(strcmp(keyname(input), "^I") == 0){
-            //tab pressed
-            printw("\t");
-            fputs("\t", file);
         }else if(strcmp(keyname(input), "^?") == 0){
             //backspc pressed
-            
+            stepBackward(buffer);
         }else{
-            //write key input to file 
-            printw(keyname(input));
-            fputs(keyname(input),file);
-            stepForward();
+            //write key input to file
+            printw("%s", getBuffer(buffer));
+            stepForward(buffer);
+            insertChar(buffer, keyname(input));
         }
         
         
