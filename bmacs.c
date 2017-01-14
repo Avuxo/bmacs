@@ -12,12 +12,11 @@ int main(int argc, char **argv){
     
     FILE *file;
     file = fopen(argv[1], "w+"); //open the first command line argument
-    //main program loop
-    int exitFlag = 0;
+   
 
     struct gapBuffer buffer;
 
-    //initialiation of the buffer
+    //initialiation of the buffer (temporary)
     size_t bufSize = 256;
     buffer.size = bufSize;
     char start[buffer.size];
@@ -30,6 +29,10 @@ int main(int argc, char **argv){
         
     //GUI stuff
     drawLine(argv[1]);
+
+    /*main program loop*/
+    
+    int exitFlag = 0;
     do{
         
         //get the user inputed character
@@ -37,15 +40,11 @@ int main(int argc, char **argv){
         int input = getch();
         
         if(strcmp(keyname(input), "^R") == 0){ //ctrl+r exits program(save)
-            //ctrl+r pressed
             exitFlag = 1;
-        }else if(strcmp(keyname(input), "^?") == 0){
-            //backspc pressed
+        }else if(strcmp(keyname(input), "^?") == 0){ //backspc pressed
             stepBackward(buffer);
-        }else{
-            //write key input to file
+        }else{ //write key input out
             stepForward(buffer);
-            //printw(keyname(input));
             printw("%s", getBuffer(buffer));
             insertChar(buffer, keyname(input));
         }
