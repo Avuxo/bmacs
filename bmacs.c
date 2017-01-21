@@ -1,6 +1,11 @@
 #include "bmacs.h"
 #include "buffer.h"
 
+/*
+  bmacs text editor, written to be a lightweight gap buffer-based text editor for use on UNIX/BSD based operating system, with the only main library used being ncurses.
+*/
+
+
 int main(int argc, char **argv){
     if(argc < 2){ /*make sure that the user actually provided a file*/
         usage();
@@ -29,7 +34,7 @@ int main(int argc, char **argv){
         
     //GUI stuff
     drawLine(argv[1]);
-
+ 
     /*main program loop*/
     
     int exitFlag = 0;
@@ -45,7 +50,7 @@ int main(int argc, char **argv){
             stepBackward(buffer);
         }else{ //write key input out
             stepForward(buffer);
-            printw("%s", getBuffer(buffer));
+            printw("%c", keyname(input));
             insertChar(buffer, keyname(input));
         }
         
@@ -87,5 +92,4 @@ void drawLine(char *filename){
 
 /*
   bmacs version 0.1
-  https://github.com/asonskii/bmacs.git
 */

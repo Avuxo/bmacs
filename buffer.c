@@ -9,8 +9,7 @@
 //step the cursor forward one character
 void stepForward(struct gapBuffer buffer){
     int y,x; //store the cursor pos here
-    getyx(curscr, y, x);
-    printw("%d,%d", x, y);
+    getyx(curscr, y, x); //get current curosr pos
     move(y, x+1); //moves to the next position
 }
 
@@ -18,22 +17,27 @@ void stepForward(struct gapBuffer buffer){
 void stepBackward(struct gapBuffer buffer){
     int y,x; //store the cursor pos her
     getyx(curscr, y, x);
-    move(y, x-1);
+    move(y, x-1);//move back
 }
 
 //insert a character into the buffer
 void insertChar(struct gapBuffer buffer, char insert){
-    (*buffer.gapStart++) = insert; //set the next char to be the inserted char
+    *(buffer.gapStart+1) = insert; //set the next char to be the inserted char
     return;
 };
 
+//get the size of the buffer
+size_t buffer_size(struct gapBuffer buffer){
+    return  ((sizeof(buffer.start))    +
+             (sizeof(buffer.gapStart)) +
+             (sizeof(buffer.gapEnd))   +
+             (sizeof(buffer.end)));
+}
+
+
 //get the full buffer as a string
 char *getBuffer(struct gapBuffer buffer){
-    int size = ((sizeof(buffer.start))    +
-                (sizeof(buffer.gapStart)) +
-                (sizeof(buffer.gapEnd))   +
-                (sizeof(buffer.end))  / 8);
-    char fullBuffer[size + 1]; //string sized for the file
+    char fullBuffer[buffer_size(buffer) + 1]; //string sized for the file
     
     strcpy(fullBuffer, buffer.start);
     strcpy(fullBuffer, buffer.gapStart);
