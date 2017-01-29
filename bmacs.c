@@ -19,7 +19,7 @@ int main(int argc, char **argv){
     file = fopen(argv[1], "w+"); //open the first command line argument
    
 
-    struct gapBuffer buffer;
+    GapBuffer buffer;
 
     //initialiation of the buffer (temporary)
     size_t bufSize = 256;
@@ -27,19 +27,16 @@ int main(int argc, char **argv){
     char start[buffer.size];
     buffer.start = start;
     buffer.gapStart = buffer.start;
-    buffer.end = buffer.start + buffer.size;
-    buffer.gapEnd = buffer.end;
-    
+    buffer.end = buffer.start + buffer.size; 
      
         
     //GUI stuff
     drawLine(argv[1]);
- 
+
     /*main program loop*/
     
     int exitFlag = 0;
     do{
-        
         //get the user inputed character
         noecho();
         int input = getch();
@@ -51,15 +48,15 @@ int main(int argc, char **argv){
         }else{ //write key input out
             stepForward(buffer);
             printw("%c", keyname(input));
-            insertChar(buffer, keyname(input));
+            //            insertChar(buffer, keyname(input));
         }
         
         
         
     }while(exitFlag == 0);
 
-    fprintf(file, "%s", getBuffer(buffer));
-    fclose(file);         /*close the file output stream*/
+    fprintf(file, "%s", "file writing is not yet finished");
+    fclose(file);       /*close the file output stream*/
     endwin();           /*exit ncurses*/
     return 0;
 }

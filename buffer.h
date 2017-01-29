@@ -1,23 +1,30 @@
 #include <ncurses.h>
 
  
-struct gapBuffer{
+typedef struct {
     char  *start;                                                                
     char  *gapStart;                                                             
-    char  *gapEnd;
     char  *end;
     size_t size; //total size
+    char *point;
     
-};   
+} GapBuffer;   
 
 //step the cursor forward one character
-void stepForward(struct gapBuffer buffer);
+void stepForward(GapBuffer buffer);
 
 //step the cursor back one character
-void stepBackward(struct gapBuffer buffer);
+void stepBackward(GapBuffer buffer);
 
 //insert a character into the buffer
-void insertChar(struct gapBuffer buffer, char insert);
+void insertChar(GapBuffer buffer, char insert);
+
+//get the size of the buffer
+size_t buffer_size(GapBuffer buffer);
 
 //get the full buffer as a string
-char *getBuffer(struct gapBuffer buffer);
+char *getBuffer(GapBuffer buffer);
+
+void moveGap(GapBuffer buffer, int point);
+
+int copyBytes(char *dest, char *src, unsigned int len);
