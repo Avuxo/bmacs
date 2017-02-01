@@ -1,5 +1,7 @@
 #include "buffer.h"
 #include <strings.h>
+#include <stdlib.h>
+
 /*
   functions for use by the 'gap buffer' data type, implemented for the storage and manipulation of text in the bmacs editor
 */
@@ -22,14 +24,32 @@ void stepBackward(GapBuffer buffer){
 
 //insert a character into the buffer
 void insertChar(GapBuffer buffer, char insert){
-    *(buffer.gapStart+1) = insert; //set the next char to be the inserted char
-    return;
-};
+    *(buffer.gap+1) = insert; //set the next char to be the inserted char    
+}
+
+void allocateBuffer(GapBuffer buffer, size_t filesize){
+    size_t size = (sizeof(char) * (filesize + 1)) +
+        (sizeof(char) * 10000);
+    buffer.start = malloc(size);
+}
+
+
+void reallocateBuffer(size_t size, GapBuffer buffer){
+    buffer.gap = malloc(sizeof(char) * size);
+}
+
 
 //get the size of the buffer
 size_t buffer_size(GapBuffer buffer){
-    return  ((sizeof(buffer.start))    +
-             (sizeof(buffer.gapStart)) +
-             (sizeof(buffer.end)));
+    size_t buffer_size =
+        (sizeof(buffer.start))+
+        (sizeof(buffer.gap));
+    return buffer_size;
 }
+
+char *getBuffer(GapBuffer buffer){
+    return buffer.start;
+}
+
+
 

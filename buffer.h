@@ -3,11 +3,9 @@
  
 typedef struct {
     char  *start;                                                                
-    char  *gapStart;                                                             
-    char  *end;
+    char  *gap;                                                             
     size_t size; //total size
-    char *point;
-    
+    int bufSize;
 } GapBuffer;   
 
 //step the cursor forward one character
@@ -22,9 +20,17 @@ void insertChar(GapBuffer buffer, char insert);
 //get the size of the buffer
 size_t buffer_size(GapBuffer buffer);
 
-//get the full buffer as a string
+//reallocate buffer 
+void realocateBuffer(size_t size, GapBuffer buffer);
+
+//get the buffer as a string
 char *getBuffer(GapBuffer buffer);
 
-void moveGap(GapBuffer buffer, int point);
+//get the ammount of the buffer that is visible on the screen
+char *getVisibleBuffer(GapBuffer buffer);
 
-int copyBytes(char *dest, char *src, unsigned int len);
+//initial allocation
+void allocateBuffer(GapBuffer buffer, size_t filesize);
+
+//moveGap
+void moveGap(GapBuffer buffer, int point);

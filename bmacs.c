@@ -1,6 +1,11 @@
 #include "bmacs.h"
 #include "buffer.h"
 
+#include <stdlib.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+
 /*
   bmacs text editor, written to be a lightweight gap buffer-based text editor for use on UNIX/BSD based operating system, with the only main library used being ncurses.
 */
@@ -16,26 +21,23 @@ int main(int argc, char **argv){
     initscr(); /*start ncurses*/
     
     FILE *file;
-    file = fopen(argv[1], "w+"); //open the first command line argument
-   
-
+    file = fopen(argv[1], "r"); //open the first command line argument
+    
     GapBuffer buffer;
-
+    
     //initialiation of the buffer (temporary)
-    size_t bufSize = 256;
-    buffer.size = bufSize;
-    char start[buffer.size];
-    buffer.start = start;
-    buffer.gapStart = buffer.start;
-    buffer.end = buffer.start + buffer.size; 
-     
-        
+    struct stat *thing = malloc(sizeof(struct stat));
+    stat(argv[1], thing);
+    size_t size = thing->st_size;
+
+    //allocate the buffer
+    allocateBuffer(buffer,size);
+
     //GUI stuff
     drawLine(argv[1]);
 
     /*main program loop*/
-    
-    int exitFlag = 0;
+    const int exitFlag = 0;
     do{
         //get the user inputed character
         noecho();
@@ -47,8 +49,8 @@ int main(int argc, char **argv){
             stepBackward(buffer);
         }else{ //write key input out
             stepForward(buffer);
-            printw("%c", keyname(input));
-            //            insertChar(buffer, keyname(input));
+            printw(keyname(input));
+            insertChar(buffer, input + '0');
         }
         
         
