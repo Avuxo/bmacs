@@ -6,6 +6,9 @@ typedef struct {
     char  *gap;                                                             
     size_t size; //total size
     int bufSize;
+    void (*insert)(char insert);
+    void (*allocate)(void);
+    void (*reallocate)(void);
 } GapBuffer;   
 
 //step the cursor forward one character
@@ -34,3 +37,5 @@ void allocateBuffer(GapBuffer buffer, size_t filesize);
 
 //moveGap
 void moveGap(GapBuffer buffer, int point);
+
+void buffer(GapBuffer buffer);

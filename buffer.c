@@ -23,8 +23,9 @@ void stepBackward(GapBuffer buffer){
 }
 
 //insert a character into the buffer
-void insertChar(GapBuffer buffer, char insert){
-    *(buffer.gap+1) = insert; //set the next char to be the inserted char    
+void insertChar(GapBuffer buffer, char insert){ 
+    buffer.gap++;
+    buffer.gap = insert;
 }
 
 void allocateBuffer(GapBuffer buffer, size_t filesize){
@@ -51,5 +52,6 @@ char *getBuffer(GapBuffer buffer){
     return buffer.start;
 }
 
-
-
+void buffer(GapBuffer buffer){
+    return;
+}

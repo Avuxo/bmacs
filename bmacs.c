@@ -16,12 +16,13 @@ int main(int argc, char **argv){
         usage();
         return 1;
     }
-
-
+    
     initscr(); /*start ncurses*/
     
-    FILE *file;
-    file = fopen(argv[1], "r"); //open the first command line argument
+    FILE *write;
+    FILE *read;
+    write = fopen(argv[1], "w");
+    read = fopen(argv[1], "r"); //open the first command line argument
     
     GapBuffer buffer;
     
@@ -37,7 +38,7 @@ int main(int argc, char **argv){
     drawLine(argv[1]);
 
     /*main program loop*/
-    const int exitFlag = 0;
+    int exitFlag = 0;
     do{
         //get the user inputed character
         noecho();
@@ -56,31 +57,31 @@ int main(int argc, char **argv){
         
         
     }while(exitFlag == 0);
-
-    fprintf(file, "%s", "file writing is not yet finished");
-    fclose(file);       /*close the file output stream*/
+    fprintf(write, "%s", getBuffer(buffer));
+    fclose(read);       /*close the read output stream*/
+    fclose(write);
     endwin();           /*exit ncurses*/
     return 0;
 }
-
+/*Explains the usage of the program*/
 void usage(void){
-    printf("Error, usage: bmacs <filename> <options>\n");
+    printf("Error, usage: bmacs <readname> <options>\n");
     return;
 }
 
 
 
 /*---------------------------------------------------------------------
-  Draw Line of asterisks at the bottom of the screen with the filename
+  Draw Line of asterisks at the bottom of the screen with the readname
  ----------------------------------------------------------------------*/
-void drawLine(char *filename){
+void drawLine(char *readname){
     int termH = 50; // terminal height
     int termW = 95; // terminal width
     int row, col;
     getyx(curscr,col, row); // get current cursor
-    for(int i=0; i<((termW/2) - strlen(filename)); i++)
+    for(int i=0; i<((termW/2) - strlen(readname)); i++)
         mvprintw(termH-5, i, "*"); // draw asterisk line
-    printw("%s", filename); // print the filename
+    printw("%s", readname); // print the readname
     for(int i=0; i<(termW/2); i++)
         mvprintw(termH-5, (termW/2) + i,  "*"); // finish the line
     move(col,row); //move back to the original place of cursor
