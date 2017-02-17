@@ -32,6 +32,8 @@ void allocateBuffer(GapBuffer buffer, size_t filesize){
     size_t size = (sizeof(char) * (filesize + 1)) +
         (sizeof(char) * 10000);
     buffer.start = malloc(size);
+    buffer.gap = buffer.start;
+    buffer.start = "testing";
 }
 
 
