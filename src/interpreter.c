@@ -35,9 +35,11 @@ void interpret(Buffer *buf, char *commands){
 
 /*execute command*/
 void command(Buffer *buf, const char *cmd, int index){
+    /*boolean -- does command have integer arguments?*/
     int hasInts = nextIsInt(cmd, index);
+    /*check each char for command*/
     switch(cmd[index]){
-    case '>':
+    case '>': /*buffer move right x chars (where x is an integer)*/
         if(!hasInts){
             printf("Error, expected integer after '> (c:%d)\n", index);
             exit(1);
@@ -45,7 +47,7 @@ void command(Buffer *buf, const char *cmd, int index){
             moveBufferRight(&(*buf), cmd[index+1] - '0');
             break;
         }
-    case '<':
+    case '<': /*buffer move left x chars (where x is an integer)*/
         if(!hasInts){
             printf("Error, expected integer after '<' (c: %d)\n", index);
             exit(1);
@@ -53,7 +55,7 @@ void command(Buffer *buf, const char *cmd, int index){
             moveBufferLeft(&(*buf), cmd[index+1] -'0');
             break;
         }
-    case '^':
+    case '^': /*character insert*/
         /*using character register?*/
         if(cmd[index+1] == '#'){
             if(reg3 == '\0'){ /*terminator used in place of NULL*/
@@ -63,8 +65,10 @@ void command(Buffer *buf, const char *cmd, int index){
             insert(&(*buf), reg3);
             break;
         }
+        /*insert next character*/
         insert(&(*buf), cmd[index+1]);
         break;
+    /*loop start*/
     case '[':{
         if(!hasInts){
             printf("Expected integer after '[ (c: %d)\n'", index);
@@ -73,6 +77,7 @@ void command(Buffer *buf, const char *cmd, int index){
             int numLoop = cmd[index+1] - '0';
             for(int i=1; i<numLoop; i++){
                 int j=1;
+                /*go until loop close*/
                 while(cmd[index+j] != ']'){
                     command(&(*buf), cmd, index+j+1);
                     j++;
@@ -81,6 +86,7 @@ void command(Buffer *buf, const char *cmd, int index){
             break;
         }
     }
+    /*log current buffer*/
     case '.':
         logBuffer(&(*buf));
         break;

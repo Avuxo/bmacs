@@ -11,10 +11,11 @@ void insert(Buffer *buf, char insert){
     if(buf->insert == buf->b2){
         reallocate(&(*buf));
     }
-    *buf->insert++ = insert;
+    *buf->insert++ = insert; /*next char after pointer is inserted*/
 }
 
 void moveBufferRight(Buffer *buf, unsigned int pos){
+    /*move chars to the left of the buffer*/
     memmove((buf->b1 + buf->b1Len),
             (buf->b2 + pos),
             (strlen(buf->b2) + pos));
@@ -24,12 +25,15 @@ void moveBufferRight(Buffer *buf, unsigned int pos){
 
 /*if insert > pos -> left; if insert < pos -> right(or the other way, im tired)*/
 void moveBufferLeft(Buffer *buf, unsigned int pos){
+    /*move chars to the right of the buffer*/
     memmove((buf->b2 + buf->b2Len),
             (buf->b1 + pos),
             (strlen(buf->b1) + pos));
+    /*move insertion pointer*/
     buf->insert = (buf->b1+pos);
 }
 
+/*return the buffer (without invisible portion)*/
 char *getBuffer(Buffer *buf){
     /*return string*/
     char *ret = malloc(sizeof(buf->b1) + sizeof(buf->b2) + 1);
@@ -63,21 +67,22 @@ void logBuffer(Buffer *buf){
     char *gap_tmp = malloc(sizeof(buf->b1));
     memcpy(b1_tmp, (buf->b1), buf->insert - buf->b1);
     memcpy(gap_tmp, (buf->b1 + (buf->insert-buf->b1)), 4);
-
+    
     printf("\nAddress: b1:%d b2:%d", &(buf->b1), &(buf->b2));
     printf("\n--Gap--\n%s[%s]%s\n-------\n", b1_tmp, gap_tmp, buf->b2);
-
+    
     free(b1_tmp);
     free(gap_tmp);
 }
 
+/*reallocate buffer once space runs out*/
 void reallocate(Buffer *buf){
     printf("Out of memory\n TODO: reallocate memory.\n");
     exit(1);
 }
 
 
-/*boilerplate shit I've written 500 times now :|*/
+/*allocate the buffer and configure the pointers*/
 void allocate(Buffer *buf){
     buf->b1Len = 0;
     buf->b2Len = 0;

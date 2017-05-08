@@ -13,12 +13,17 @@
 
 
 int main(int argc, char **argv){
+    /*buffer*/
     Buffer buf;
-    allocate(&buf);
+    allocate(&buf); /*allocate buffer*/
+    
+    /*make sure right amount of args*/
     if(argc < 2){ /*make sure that the user actually provided a file*/
         usage();
         return 1;
     }
+    
+    /*check for headless mode*/
     if(!strcmp(argv[1], "-h")){
         if(argc < 3){
             printf("Usage: bmacs -h [SCRIPTNAME]");
@@ -27,38 +32,13 @@ int main(int argc, char **argv){
         loadScript(&buf, argv[2]);
         return 0;
     }
-    initscr(); /*start ncurses*/
-    
-    //GUI stuff
-    drawLine(argv[1]);
 
-    /*main program loop*/
-    int exitFlag = 0;
-    do{
-        //get the user inputed character
-        noecho();
-        int input = getch();
-        
-        if(strcmp(keyname(input), "^R") == 0){ //ctrl+r exits program(save)
-            exitFlag = 1;
-        }else if(strcmp(keyname(input), "^?") == 0){ //backspc pressed
-            //
-        }else{ //write key input out
-            printw(keyname(input));
-        }
-        
-        
-        
-    }while(exitFlag == 0);
-    /*fprintf(write, "%s", getBuffer(buffer));
-    fclose(read);       /*close the read output stream
-    fclose(write);*/
-    endwin();           /*exit ncurses*/
+    
     return 0;
 }
 /*Explains the usage of the program*/
 void usage(void){
-    printf("Error, usage: bmacs <readname> <options>\n");
+    printf("Error, usage: bmacs <filename> <options>\n");
     return;
 }
 
