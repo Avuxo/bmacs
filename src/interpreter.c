@@ -30,8 +30,12 @@ void loadScript(Buffer *buf, char *filename){
 void interpret(Buffer *buf, char *commands){
     int commentFlag = 0; /*continue flag*/
     for(int i=0; i<strlen(commands); i++){
-        if(commands[i] == '~')
+        /*check for comments - if comment start comment flag*/
+        if(commands[i] == '~'){
             commentFlag = !commentFlag;
+            continue;
+        }
+        /*if its a comment - keep going*/
         if(commentFlag){
             continue;
         }
