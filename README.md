@@ -4,7 +4,7 @@
 
 `$ make && sudo make install`
 
-##Headless bmacs
+## Headless bmacs
 start bmacs with the `-h` flag followed by the path to your script (example script located in scripts/testing.bmax).
 
 Scripts have the file extension `.bmax`
