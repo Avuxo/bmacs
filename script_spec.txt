@@ -1,0 +1,11 @@
+>x (move gap right x chars -- x is an integer)
+<x (move gap left x chars -- x is an integer)
+^c (insert char at current point -- c is a char)
+[x (COMMAND)] (repeat COMMAND x times - x is an integer)
+$ register 1 (int)
+& register 2 (int)
+# register 3 (char)
+= assign register value
+; done assigning register
+~x~ comment (where x is anything)
+. print out current buffer (logmode)
