@@ -28,8 +28,15 @@ void loadScript(Buffer *buf, char *filename){
 }
 
 void interpret(Buffer *buf, char *commands){
+    int commentFlag = 0; /*continue flag*/
     for(int i=0; i<strlen(commands); i++){
+        if(commands[i] == '~')
+            commentFlag = !commentFlag;
+        if(commentFlag){
+            continue;
+        }
         command(&(*buf), commands, i);
+
     }
 }
 
