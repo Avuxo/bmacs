@@ -1,0 +1,102 @@
+/*
+  Bmacs scripting language interpreter - designed to be used with the bmacs text editor
+*/
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+
+#include "buffer.h"
+#include "interpreter.h"
+
+/*registers*/
+int reg1 = 0; // $
+int reg2 = 0; // &
+char reg3 = '\0';// #
+
+
+void loadScript(Buffer *buf, char *filename){
+    printf("Loading %s...\n", filename);
+    FILE *file = fopen(filename, "r");
+    char *commands = malloc(sizeof(char) * MAXCMD);
+    for(int i=0; i<MAXCMD; i++){
+        fscanf(file, "%c", &commands[i]);
+    }
+
+    interpret(&(*buf), commands);
+    free(commands);
+}
+
+void interpret(Buffer *buf, char *commands){
+    for(int i=0; i<strlen(commands); i++){
+        command(&(*buf), commands, i);
+    }
+}
+
+/*execute command*/
+void command(Buffer *buf, const char *cmd, int index){
+    int hasInts = nextIsInt(cmd, index);
+    switch(cmd[index]){
+    case '>':
+        if(!hasInts){
+            printf("Error, expected integer after '> (c:%d)\n", index);
+            exit(1);
+        }else{
+            moveBufferRight(&(*buf), cmd[index+1] - '0');
+            break;
+        }
+    case '<':
+        if(!hasInts){
+            printf("Error, expected integer after '<' (c: %d)\n", index);
+            exit(1);
+        }else{
+            moveBufferLeft(&(*buf), cmd[index+1] -'0');
+            break;
+        }
+    case '^':
+        /*using character register?*/
+        if(cmd[index+1] == '#'){
+            if(reg3 == '\0'){ /*terminator used in place of NULL*/
+                printf("ERROR: Character register not set. (c: %d)", index);
+                exit(1);
+            }
+            insert(&(*buf), reg3);
+            break;
+        }
+        insert(&(*buf), cmd[index+1]);
+        break;
+    case '[':{
+        if(!hasInts){
+            printf("Expected integer after '[ (c: %d)\n'", index);
+            exit(1);
+        }else{
+            int numLoop = cmd[index+1] - '0';
+            for(int i=1; i<numLoop; i++){
+                int j=1;
+                while(cmd[index+j] != ']'){
+                    command(&(*buf), cmd, index+j+1);
+                    j++;
+                }
+            }
+            break;
+        }
+    }
+    case '.':
+        logBuffer(&(*buf));
+        break;
+    default:
+        return;
+    }
+}
+
+
+/*check how many integers are after given index*/
+int nextIsInt(const char *cmd, int index){
+    int offset = 0;
+    const char *integers = "0123456789";
+    for(int i=0; i<strlen(integers); i++){
+        if(cmd[index] == integers[i]){
+            return 1; //TODO: recur to find number of integers after (for more than 1 digit)
+        }
+    }
+}
