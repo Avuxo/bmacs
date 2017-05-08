@@ -16,7 +16,7 @@ void insert(Buffer *buf, char insert){
 
 void moveBufferRight(Buffer *buf, unsigned int pos){
     /*move chars to the left of the buffer*/
-    memmove((buf->b1 + buf->b1Len),
+    memmove((buf->b1 + strlen(buf->b1)),
             (buf->b2 + pos),
             (strlen(buf->b2) + pos));
 
@@ -26,6 +26,9 @@ void moveBufferRight(Buffer *buf, unsigned int pos){
 /*if insert > pos -> left; if insert < pos -> right(or the other way, im tired)*/
 void moveBufferLeft(Buffer *buf, unsigned int pos){
     /*move chars to the right of the buffer*/
+    printf(" %d, ", (strlen(buf->b1) + pos));
+    printf("pos: %d, ", pos);
+    printf("mod: %d", (strlen(buf->b1) - pos));
     memmove((buf->b2 + buf->b2Len),
             (buf->b1 + pos),
             (strlen(buf->b1) + pos));
@@ -71,8 +74,8 @@ void logBuffer(Buffer *buf){
     printf("\nAddress: b1:%d b2:%d", &(buf->b1), &(buf->b2));
     printf("\n--Gap--\n%s[%s]%s\n-------\n", b1_tmp, gap_tmp, buf->b2);
     
-    free(b1_tmp);
-    free(gap_tmp);
+    //free(b1_tmp);
+    //free(gap_tmp);
 }
 
 /*reallocate buffer once space runs out*/

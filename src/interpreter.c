@@ -27,6 +27,7 @@ void loadScript(Buffer *buf, char *filename){
     free(commands);
 }
 
+/*interpret given command in given buffer*/
 void interpret(Buffer *buf, char *commands){
     int commentFlag = 0; /*continue flag*/
     for(int i=0; i<strlen(commands); i++){
