@@ -1,3 +1,9 @@
+bmax scripting
+==============
+
+The bmax scripting language uses simple 1 character commands to headlessly communicate with the bmacs text editor.
+bmax scripts typically end in the .bmax file extension. use the -h flag to start bmacs in headless mode
+
 >x (move gap right x chars -- x is an integer)
 <x (move gap left x chars -- x is an integer)
 ^c (insert char at current point -- c is a char)
