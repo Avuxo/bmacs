@@ -17,7 +17,7 @@ void insert(Buffer *buf, char insert){
 void moveBufferRight(Buffer *buf, unsigned int pos){
     /*move chars to the left of the buffer*/
     memmove((buf->b1 + strlen(buf->b1)),
-            (buf->b2 + pos),
+            (buf->b2),
             (strlen(buf->b2) + pos));
 
     buf->insert = (buf->b2+pos);
@@ -26,10 +26,11 @@ void moveBufferRight(Buffer *buf, unsigned int pos){
 /*if insert > pos -> left; if insert < pos -> right(or the other way, im tired)*/
 void moveBufferLeft(Buffer *buf, unsigned int pos){
     /*move chars to the right of the buffer*/
-    printf(" %d, ", (strlen(buf->b1) + pos));
+    printf("point: %d, ", (strlen(buf->b1) + pos));
     printf("pos: %d, ", pos);
     printf("mod: %d", (strlen(buf->b1) - pos));
-    memmove((buf->b2 + buf->b2Len),
+    
+    memmove((buf->b2),
             (buf->b1 + pos),
             (strlen(buf->b1) + pos));
     /*move insertion pointer*/

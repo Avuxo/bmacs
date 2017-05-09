@@ -102,6 +102,14 @@ void command(Buffer *buf, const char *cmd, int index){
     case '.':
         logBuffer(&(*buf));
         break;
+    /*add to register (first arg)*/
+    case '+':
+        incrementReg(cmd[index+1]);
+        break;
+    /*subtract from register (first arg)*/
+    case '-':
+        decrementReg(cmd[index+1]);
+        break;
     default:
         return;
     }
@@ -116,5 +124,37 @@ int nextIsInt(const char *cmd, int index){
         if(cmd[index] == integers[i]){
             return 1; //TODO: recur to find number of integers after (for more than 1 digit)
         }
+    }
+}
+
+/*increment register*/
+void incrementReg(char reg){
+    switch(reg){
+    /*reg1*/
+    case '$':
+        if(reg1 < MAXREG) reg1++;
+        return;
+    /*reg 2*/
+    case '&':
+        if(reg2 < MAXREG) reg2++;
+        return;
+    default:
+        return;
+    }
+}
+
+/*decrement register*/
+void decrementReg(char reg){
+    switch(reg){
+    /*reg1*/
+    case '$':
+        if(reg1 > 0) reg1--;
+        return;
+    /*reg2*/
+    case '&':
+        if(reg2 > 0) reg2--;
+        return;
+    default:
+        return;
     }
 }
