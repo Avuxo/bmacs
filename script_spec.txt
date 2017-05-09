@@ -15,3 +15,5 @@ $ register 1 (int)
 ; done assigning register
 ~x~ comment (where x is anything)
 . print out current buffer (logmode)
++ increment current integer register
+- decrement current integer register
