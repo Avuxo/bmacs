@@ -86,6 +86,8 @@ void command(Buffer *buf, const char *cmd, int index){
             printf("Expected integer after '[ (c: %d)\n'", index);
             exit(1);
         }else{
+            /*actual integer*/
+
             int numLoop = cmd[index+1] - '0';
             for(int i=1; i<numLoop; i++){
                 int j=1;
@@ -95,6 +97,8 @@ void command(Buffer *buf, const char *cmd, int index){
                     j++;
                 }
             }
+               
+ 
             break;
         }
     }
@@ -119,12 +123,25 @@ void command(Buffer *buf, const char *cmd, int index){
 /*check how many integers are after given index*/
 int nextIsInt(const char *cmd, int index){
     int offset = 0;
-    const char *integers = "0123456789";
+    /*0-9 + integer registers*/
+    const char *integers = "0123456789$&";
     for(int i=0; i<strlen(integers); i++){
         if(cmd[index] == integers[i]){
             return 1; //TODO: recur to find number of integers after (for more than 1 digit)
         }
     }
+    return 0;
+}
+
+/*check if the given index is a character*/
+int nextIsChar(const char *cmd, int index){
+    const char *alphabet = "abcdefghijklmnopqrstuvwxyz";
+    for(int i=0; i<strlen(alphabet); i++){
+        if(cmd[index] == alphabet[i]){
+            return 1;
+        }
+    }
+    return 0;
 }
 
 /*increment register*/
