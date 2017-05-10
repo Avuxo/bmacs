@@ -11,7 +11,7 @@ bmax scripts typically end in the .bmax file extension. use the -h flag to start
 $ register 1 (int)
 & register 2 (int)
 # register 3 (char)
-= assign register value
+=xn  assign register value (where x is a register of any kind, and n is a type in correlation with the type of register)
 ; done assigning register
 ~x~ comment (where x is anything)
 . print out current buffer (logmode)
