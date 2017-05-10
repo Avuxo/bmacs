@@ -83,8 +83,10 @@ void command(Buffer *buf, const char *cmd, int index){
     /*loop start*/
     case '[':{
         if(!hasInts){
-            printf("Expected integer after '[ (c: %d)\n'", index);
-            exit(1);
+            if(nextIsRegister(cmd, index)){
+                printf("Expected integer or register after '[ (c: %d)\n'", index);
+                exit(1);
+            }
         }else{
             /*actual integer*/
 
@@ -114,6 +116,26 @@ void command(Buffer *buf, const char *cmd, int index){
     case '-':
         decrementReg(cmd[index+1]);
         break;
+    case '=':
+        /*integer register?*/
+        if(nextIsRegister(cmd, index) == 1){
+            /*is the next character after the register an integer?*/
+            if(nextIsInt(cmd, index+1)){
+                setIntRegister(cmd[index+1], cmd[index+2]);
+            }else{
+                break;
+            }
+        /*char register?*/
+        }else if(nextIsRegister(cmd, index) == 2){
+            /*is the next character after the register a character*/
+            if(nextIsChar(cmd, index+1)){
+                setCharRegister(cmd[index+1], cmd[index+2]);
+            }else{
+                break;
+            }
+        }else{
+            break;
+        }
     default:
         return;
     }
@@ -142,6 +164,36 @@ int nextIsChar(const char *cmd, int index){
         }
     }
     return 0;
+}
+
+/*returns 1 for integer register, 2 for char register, and 0 for not register*/
+int nextIsRegister(const char *cmd, int index){
+    const char *intRegisters = "$&";
+    const char *charRegisters = "#";
+    for(int i=0; i<strlen(intRegisters); i++){
+        if(cmd[index] == intRegisters[i]){
+            return 1;
+        }
+    }
+    for(int i=0; i<strlen(charRegisters); i++){
+        if(cmd[index] == charRegisters[i]){
+            return 2;
+        }
+    }
+    return 0;
+}
+
+/*set given register to the given value (integer type)*/
+void setIntRegister(char reg, int value){
+    if(reg != '$' || reg != '&') return;
+    if(reg == '$') reg1 = value;
+    else if(reg == '&') reg2 = value;
+}
+
+/*set given register to the given value (char type)*/
+void setCharRegister(char reg, char value){
+    if(reg != '#') return;
+    reg3 = value;
 }
 
 /*increment register*/
