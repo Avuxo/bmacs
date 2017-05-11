@@ -1,0 +1,36 @@
+~this script will be documented to try and explain the complex and esoteric syntax of the bmax scripting language.~
+~first off you'll notice that all of the explanations are between tildes. In bmax a tilde is a comment, everything between them is ignored by the interpreter.~
+
+~The below command is the simplest command in the bmax scripting language. This command is used to insert a character at the current insertion point. The syntax is ^x (where x is a character)~
+^b
+^m
+^a
+^x
+^
+
+~Next up is loops, loops in bmax are simple, they are declared using square brackets with a number after the opening bracket. This number is how many times the loop will run.~
+~in this case the loop will insert the character 'i' five times. Any amount of commands can go inside a loop, including other loops.~
+[5 ^i]
+
+~bmax handles text based on a gap buffer, this means that to move the insertion point back or forward you need to move the gap, or in this case move the characters around the gap.~
+~to move the gap you use angled brackets followed by an integer (or a register as we will go into later) to indicate the amount the gap will move~
+<2
+>1
+
+~to log the current buffer (with debug information like adresses and the location of the buffer) use the period (full stop) character~
+.
+
+~bmax features 3 registers for storing data values. There are two integer registers and one character register. The two integer registers are $ and &, while the character register is #~
+~To assign a register a value the equals sign is used followed by the register and the value you wish to assign~
+=$1
+=&5
+=#a
+~After a register is assigned it can be used in place of its type ($,& for integers and # for characters)~
+>$
+<&
+[& ^#]
+~registers are where the syntax can get very complicated and hard to read, so try not to use them too much if you plan to ever look at your scripts again.~
+~To increment a register use the plus or minus signs followed by an integer register~
++$
+-&
+
