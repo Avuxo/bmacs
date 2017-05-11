@@ -49,7 +49,6 @@ void interpret(Buffer *buf, char *commands){
 void command(Buffer *buf, const char *cmd, int index){
     /*boolean -- does command have integer arguments?*/
     int hasInts = nextIsInt(cmd, index);
-    printf("hasInts? %d\n", hasInts);
     /*check each char for command*/
     switch(cmd[index]){
     case '>': /*buffer move right x chars (where x is an integer)*/
@@ -69,7 +68,6 @@ void command(Buffer *buf, const char *cmd, int index){
             }
         }
     case '<': /*buffer move left x chars (where x is an integer)*/
-        printf("%c\n", cmd[index+1]);
         if(!nextIsInt(cmd, index+1)){
             printf("Error, expected integer after '<' (c: %d)\n", index);
             exit(1);
@@ -138,7 +136,6 @@ void command(Buffer *buf, const char *cmd, int index){
         decrementReg(cmd[index+1]);
         break;
     case '=':
-        printf("assigning reg: %c to %c\n", cmd[index+1], cmd[index+2]);
         /*integer register?*/
         if(nextIsRegister(cmd, index) == 1){
             /*is the next character after the register an integer?*/
@@ -173,7 +170,6 @@ int nextIsInt(const char *cmd, int index){
     const char *integers = "0123456789$&";
     for(int i=0; i<strlen(integers); i++){
         if(cmd[index] == integers[i]){
-            printf("yes . is int\n");
             return 1; //TODO: recur to find number of integers after (for more than 1 digit)
         }
     }
