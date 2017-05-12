@@ -26,9 +26,10 @@
 =&5
 =#a
 ~After a register is assigned it can be used in place of its type ($,& for integers and # for characters)~
+~character registers must be inserted with a backslash before them~
 >$
 <&
-[& ^#]
+[& ^\#]
 ~registers are where the syntax can get very complicated and hard to read, so try not to use them too much if you plan to ever look at your scripts again.~
 ~To increment a register use the plus or minus signs followed by an integer register~
 +$
