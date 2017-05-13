@@ -102,14 +102,14 @@ void command(Buffer *buf, const char *cmd, int index){
         break;
     /*loop start*/
     case '[':{
-        printf("%d\n", hasInts);
-        if(!nextIsInt(cmd,index) && nextIsRegister(cmd, index) != 2){
+        if(!nextIsInt(cmd,index+1)){
             printf("Expected integer or register after '[' (c: %d)\n", index);
             exit(1);
         }else{
             int numLoop;
             /*actual integer*/
-            if(nextIsInt(cmd, index)) numLoop = cmd[index+1] - '0';
+            if(nextIsInt(cmd, index+1) && cmd[index+1] != '$' && cmd[index+1] != '&')
+                numLoop = cmd[index+1] - '0';
             else if(nextIsRegister(cmd, index) == 1){
                 if(cmd[index+1] == '$') numLoop = reg1;
                 else if(cmd[index+1] == '&') numLoop = reg2;
@@ -210,6 +210,7 @@ int nextIsRegister(const char *cmd, int index){
 
 /*set given register to the given value (integer type)*/
 void setIntRegister(char reg, int value){
+    printf("reg: %c, val: %d\n", reg, value);
     if(reg != '$' && reg != '&') return;
     else if(reg == '$') reg1 = value;
     else if(reg == '&') reg2 = value;
