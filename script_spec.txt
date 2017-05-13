@@ -17,3 +17,6 @@ $ register 1 (int)
 . print out current buffer (logmode)
 +x increment current integer register (where x is an integer register)
 -x decrement current integer register (where x is an integer register)
+{xn (COMMAND)} conditional statement that x is equal to n (where x is a register and n is an integer or character) command is only run given the statement is true
+?n get character at position n (where n is an integer) and store it in the character register #
+! delete previous character (overwrite -- move insertion pointer back one character)
