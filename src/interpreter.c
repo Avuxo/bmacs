@@ -88,9 +88,10 @@ void command(Buffer *buf, const char *cmd, int index){
         }
     case '^': /*character insert*/
         /*using character register?*/
-        if(cmd[index+1] == '#'){
+        if(cmd[index+1] == 0x5c && cmd[index+2] == '#'){
+            printf("%c\n", reg3);
             if(reg3 == '\0'){ /*terminator used in place of NULL*/
-                printf("ERROR: Character register not set. (c: %d)", index);
+                printf("ERROR: Character register not set. (c: %d)\n", index);
                 exit(1);
             }
             insert(&(*buf), reg3);
@@ -101,7 +102,8 @@ void command(Buffer *buf, const char *cmd, int index){
         break;
     /*loop start*/
     case '[':{
-        if(!hasInts && !nextIsRegister(cmd, index)){
+        printf("%d\n", hasInts);
+        if(!nextIsInt(cmd,index) && nextIsRegister(cmd, index) != 2){
             printf("Expected integer or register after '[' (c: %d)\n", index);
             exit(1);
         }else{
@@ -148,7 +150,8 @@ void command(Buffer *buf, const char *cmd, int index){
         /*char register?*/
         }else if(nextIsRegister(cmd, index) == 2){
             /*is the next character after the register a character*/
-            if(nextIsChar(cmd, index+1)){
+            if(nextIsChar(cmd, index)){
+                printf("point 1\n");
                 setCharRegister(cmd[index+1], cmd[index+2]);
                 break;
             }else{
@@ -178,9 +181,10 @@ int nextIsInt(const char *cmd, int index){
 
 /*check if the given index is a character*/
 int nextIsChar(const char *cmd, int index){
-    const char *alphabet = "abcdefghijklmnopqrstuvwxyz";
+    /*all ascii characters*/
+    const char *alphabet = "abcdefghijklmnopqrstuvwxyz 123456789`!@#$%^&*()_+-={}[];':]\",.<>/?";
     for(int i=0; i<strlen(alphabet); i++){
-        if(cmd[index] == alphabet[i]){
+        if(cmd[index+2] == alphabet[i]){
             return 1;
         }
     }
