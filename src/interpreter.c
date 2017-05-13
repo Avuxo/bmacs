@@ -86,6 +86,9 @@ void command(Buffer *buf, const char *cmd, int index){
                 break;
             }
         }
+    case '!':
+        printf("TODO: deleting characters\n");
+        break;
     case '^': /*character insert*/
         /*using character register?*/
         if(cmd[index+1] == 0x5c && cmd[index+2] == '#'){
