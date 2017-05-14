@@ -13,7 +13,10 @@
 int reg1 = 0; // $
 int reg2 = 0; // &
 char reg3 = '\0';// #
+char reg4 = '\0';
 
+/*current index*/
+int currentCommand = 0;
 
 void loadScript(Buffer *buf, char *filename){
     printf("Loading %s...\n", filename);
@@ -30,9 +33,9 @@ void loadScript(Buffer *buf, char *filename){
 /*interpret given command in given buffer*/
 void interpret(Buffer *buf, char *commands){
     int commentFlag = 0; /*continue flag*/
-    for(int i=0; i<strlen(commands); i++){
+    for(currentCommand=0; currentCommand<strlen(commands); currentCommand++){
         /*check for comments - if comment start comment flag*/
-        if(commands[i] == '~'){
+        if(commands[currentCommand] == '~'){
             commentFlag = !commentFlag;
             continue;
         }
@@ -40,7 +43,7 @@ void interpret(Buffer *buf, char *commands){
         if(commentFlag){
             continue;
         }
-        command(&(*buf), commands, i);
+        command(&(*buf), commands, currentCommand);
 
     }
 }
@@ -163,11 +166,82 @@ void command(Buffer *buf, const char *cmd, int index){
         }else{
             break;
         }
+    /*conditionals*/
+    case '{':
+        
+        /*integer register*/
+        if(nextIsRegister(cmd, index) == 1){
+            /*the two conditional values*/
+            int compareTo;
+            int comparison;
+            
+            if(cmd[index+1] == '$') compareTo = reg1;
+            else if(cmd[index+1] == '&') compareTo = reg2;
+            if(nextIsRegister(cmd, index+1) == 1){                
+                if(cmd[index+2] == '$') comparison = reg1;
+                else if(cmd[index+2] == '&') comparison = reg2;
+            }else if(nextIsInt(cmd, index+1)){
+                /*convert to int*/
+                comparison = cmd[index+2] - '0';
+            }else break;
+            /*actual comparison*/
+            if(comparison == compareTo){
+                break;
+            }else{
+                currentCommand = findExitBrace(1, cmd, index);
+            }
+        /*char register*/    
+        }else if(nextIsRegister(cmd, index) == 2){
+            char compareTo;
+            char comparison;
+            if(cmd[index+1] == '#') compareTo = reg3;
+            if(cmd[index+1] == '%') compareTo = reg4;
+            if(nextIsRegister(cmd, index+1) == 2){
+                if(cmd[index+1] == '#') comparison = reg3;
+                if(cmd[index+1] == '%') comparison = reg4;
+            }else if(nextIsChar(cmd, index)){
+                comparison = cmd[index+2];
+            }else break;
+
+            /*actual comparison*/
+            if(compareTo == comparison){
+                break;
+            }else{
+                currentCommand = findExitBrace(1, cmd, index);
+            }
+        }else{
+            printf("Expected integer or register after '{' (c: %d)\n", index);
+            exit(1);
+        }
     default:
         return;
     }
 }
 
+/*
+  1 for curly 0 for square
+  Find the exit brace given an open brace
+  TODO: implement nesting
+*/
+int findExitBrace(unsigned int type, const char *cmd, int index){
+    if(type){
+        for(int i=1; i<strlen(cmd); i++){
+            if(cmd[index+i] == '}'){
+                return index+i;
+            }
+        }
+        return 0;
+    }else if(!type){
+        for(int i=1; i<strlen(cmd); i++){
+            if(cmd[index+i] == ']'){
+                return index+i;
+            }
+        }
+        return 0;
+    }else{
+        return 0;
+    }
+}
 
 /*check how many integers are after given index*/
 int nextIsInt(const char *cmd, int index){

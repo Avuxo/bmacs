@@ -4,6 +4,7 @@
 int nextIsInt(const char *cmd, int index);
 int nextIsChar(const char *cmd, int index);
 int nextIsRegister(const char *cmd, int index);
+int findExitBrace(unsigned int type, const char *cmd, int index);
 void command(Buffer *buf, const char *cmd, int index);
 void loadScript(Buffer *buf, char *filename);
 void interpret(Buffer *buf, char *commands);

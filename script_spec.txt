@@ -11,12 +11,13 @@ bmax scripts typically end in the .bmax file extension. use the -h flag to start
 $ register 1 (int)
 & register 2 (int)
 # register 3 (char)
+% register 4 (char)
 =xn  assign register value (where x is a register of any kind, and n is a type in correlation with the type of register)
 ; done assigning register
 ~x~ comment (where x is anything)
 . print out current buffer (logmode)
 +x increment current integer register (where x is an integer register)
 -x decrement current integer register (where x is an integer register)
-{xn (COMMAND)} conditional statement that x is equal to n (where x is a register and n is an integer or character) command is only run given the statement is true
+{xn (COMMAND)} conditional statement that x is equal to n (where x is a register and n is an integer or character or a register of equivelent type) command is only run given the statement is true
 ?n get character at position n (where n is an integer) and store it in the character register #
 ! delete previous character (overwrite -- move insertion pointer back one character)
