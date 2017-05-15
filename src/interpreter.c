@@ -310,8 +310,9 @@ void setIntRegister(char reg, int value){
 }
 /*set given register to the given value (char type)*/
 void setCharRegister(char reg, char value){
-    if(reg != '#') return;
-    reg3 = value;
+    if(reg != '#' || reg != '%') return;
+    else if(reg == '#') reg3 = value;
+    else if(reg == '%') reg4 = value;
 }
 
 /*increment register*/
