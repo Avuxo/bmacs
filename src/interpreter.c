@@ -95,7 +95,6 @@ void command(Buffer *buf, const char *cmd, int index){
     case '^': /*character insert*/
         /*using character register?*/
         if(cmd[index+1] == 0x5c && cmd[index+2] == '#'){
-            printf("%c\n", reg3);
             if(reg3 == '\0'){ /*terminator used in place of NULL*/
                 printf("ERROR: Character register not set. (c: %d)\n", index);
                 exit(1);
@@ -213,6 +212,23 @@ void command(Buffer *buf, const char *cmd, int index){
             printf("Expected integer or register after '{' (c: %d)\n", index);
             exit(1);
         }
+    /*get the character at a given index*/
+    case '?':
+        if(!nextIsInt(cmd, index+1)){ /*ensure that next index is an int*/
+            printf("Expected an integer value after '?' (c: %d)\n", index);
+            exit(1);
+        }
+        int location = cmd[index+1] - '0'; /*the index of the string to store*/
+        char *buffer_tmp = getBuffer(buf); /*get the current buffer*/
+        /*assign the given register to the value at the index*/
+        if(cmd[index+2] == '#') reg3 = buffer_tmp[location];
+        else if(cmd[index+2] == '%') reg4 = buffer_tmp[location];
+        else{ /*make sure there is a register as an argument*/
+            printf("Expected a char register after '?' (c: %d)\n", index);
+            exit(1);
+        }
+        free(buffer_tmp); /*free the return value of getBuffer()*/
+        break;
     default:
         return;
     }
