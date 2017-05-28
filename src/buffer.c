@@ -12,6 +12,7 @@ void insert(Buffer *buf, char insert){
         reallocate(&(*buf));
     }
     *buf->insert++ = insert; /*next char after pointer is inserted*/
+    buf->b1Len++;
 }
 
 /*:angery:*/
@@ -24,6 +25,7 @@ void moveBufferRight(Buffer *buf, unsigned int pos){
             (pos));
     
     buf->insert = (buf->b1+strlen(buf->b1));
+    buf->b1Len++;
 }
 
 /*if insert > pos -> left; if insert < pos -> right(or the other way, im tired)*/
@@ -36,6 +38,7 @@ void moveBufferLeft(Buffer *buf, unsigned int pos){
             (strlen(buf->b1) + pos));
     /*move insertion pointer*/
     buf->insert = (buf->b1+pos);
+    buf->b2Len++;
 }
 
 /*return the buffer (without invisible portion)*/
@@ -68,8 +71,8 @@ char *getBuffer(Buffer *buf){
 /*log the buffer*/
 void logBuffer(Buffer *buf){
     /*split up string*/
-    char *b1_tmp = malloc(sizeof(buf->b1));
-    char *gap_tmp = malloc(sizeof(buf->b1));
+    char *b1_tmp = malloc(sizeof(char) * buf->b1Len);
+    char *gap_tmp = malloc(sizeof(char) * buf->b1Len);
     memcpy(b1_tmp, (buf->b1), buf->insert - buf->b1);
     memcpy(gap_tmp, (buf->b1 + (buf->insert-buf->b1)), 4);
     
