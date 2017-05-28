@@ -1,7 +1,9 @@
-#include <stdlib.h>
+#include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <stdlib.h>
+#include <ncurses.h>
 
 #include "bmacs.h"
 #include "buffer.h"
@@ -36,6 +38,7 @@ int main(int argc, char **argv){
     
     return 0;
 }
+
 /*Explains the usage of the program*/
 void usage(void){
     printf("Error, usage: bmacs <filename> <options>\n");
