@@ -79,8 +79,8 @@ void logBuffer(Buffer *buf){
     printf("\nAddress: b1:%d b2:%d", &(buf->b1), &(buf->b2));
     printf("\n--Gap--\n%s[%s]%s\n-------\n", b1_tmp, gap_tmp, buf->b2);
     
-    //free(b1_tmp);
-    //free(gap_tmp);
+    free(b1_tmp);
+    free(gap_tmp);
 }
 
 /*reallocate buffer once space runs out*/
